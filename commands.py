@@ -1,6 +1,6 @@
 from helpers import *
 from cli import *
-from re import compile, search
+from re import compile, search, sub
 
 def tfmt(filename):
     print("filename: " + filename)
@@ -10,18 +10,26 @@ def tfmt(filename):
         output("e", "filename: \"" + filename + "\" does not exist in the current directory")
         exit()
 
-    lines = [l for l in f]
+    patterns = {
+        "digits" : compile("\[\d+\]"), # remove numbers at the end of lines"
+        "newline" : compile("\n"), # remove newlines
+    }
 
-    # remove blank lines
-    lines = [l for l in lines if l != "\n"]
+    # make and filter file
+    lines = []
+    for line in f:
 
-    # remove added/created properties
-    lines = [l for l in lines if l[0:6]!="      "]
+        continue_conditions = [
+            line == "\n", # ignore blank lines
+            line[0:6]=="      ", # ignore added/created property lines
+        ]
 
-    # remove numbers at the end of lines
-    pattern = compile("\[1\]")
-    for line in lines:
-        if bool(search(pattern, line)):
-            print(line)
+        if any(continue_conditions):
+            continue
+        else:
+            line = sub(patterns["digits"], "", line)
+            line = sub(patterns["newline"], "", line)
+            
+            lines.append(line)
 
-    #print("".join(lines))
+    # need to do a frequency count of similar lines and print a table
