@@ -4,6 +4,6 @@ output_types={
     "h":"   help"
 }
 
-def output(type, output):
+def output(output, type="o"):
     output = ["tfmt", output_types[type], str(output)]
     print(": ".join(output))

@@ -15,10 +15,10 @@ if __name__ == "__main__":
         # one parameter function only
         try:
             tfmt(args[0])
-            output("o", "Completed")
+            output("Completed")
         except Exception as e:
-            output("o", "Aborted")
-            output("e", e)
+            output("Aborted")
+            output(e, "e")
     else:
-        output("e", "Unrecognised arguments: " + "\"" + " ".join(args) + "\"")
+        output("Unrecognised arguments: " + "\"" + " ".join(args) + "\"", "e")
         help()
